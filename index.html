@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Library</title>
+  <title>Bruh's Activitys</title>
   <style>
     body {
       background-color: #0d1117;
@@ -20,11 +20,22 @@
       align-items: center;
       padding: 15px 30px;
       background-color: #161b22;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
     }
-    nav a {
-      color: white;
+    .logo {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #58a6ff;
+    }
+    .links a {
+      color: #c9d1d9;
       text-decoration: none;
-      margin: 0 10px;
+      margin: 0 12px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .links a:hover {
+      color: white;
     }
 
     /* Title + search */
@@ -37,13 +48,20 @@
     .search-bar {
       display: block;
       margin: 0 auto 30px;
-      padding: 10px;
+      padding: 12px 15px;
       width: 50%;
-      border-radius: 10px;
+      max-width: 500px;
+      border-radius: 12px;
       border: none;
       font-size: 1rem;
       background-color: #161b22;
       color: white;
+      outline: none;
+      box-shadow: 0 0 0 1px #30363d;
+      transition: box-shadow 0.2s;
+    }
+    .search-bar:focus {
+      box-shadow: 0 0 0 2px #58a6ff;
     }
 
     /* Grid */
@@ -52,6 +70,8 @@
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       padding: 0 30px 50px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .item-card {
@@ -59,19 +79,23 @@
       border-radius: 15px;
       padding: 20px;
       text-align: center;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .item-card img {
       width: 80px;
       height: 80px;
       border-radius: 10px;
-    }
-    .item-card h3 {
-      margin: 10px 0 5px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
     }
     .item-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+      transform: translateY(-6px);
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+    }
+    .item-card:hover img {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -79,7 +103,7 @@
 
   <!-- Navbar -->
   <nav>
-    <div class="logo"><strong>Some Stuff</strong></div>
+    <div class="logo">Bruh's Activitys</div>
     <div class="links">
       <a href="#">Home</a>
       <a href="#">Library</a>
@@ -88,25 +112,22 @@
   </nav>
 
   <!-- Title + Search -->
-  <h1 class="title">Interactive Library</h1>
+  <h1 class="title">Activity Library</h1>
   <input type="text" id="search" class="search-bar" placeholder="Search..." onkeyup="filterItems()">
 
   <!-- Item Grid -->
   <div class="item-grid" id="itemGrid">
     <div class="item-card">
       <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/ADR_game_cover.jpg/120px-ADR_game_cover.jpg" alt="A Dark Room">
-      <h3>Adventure Room</h3>
-      <p>Text-based challenge.</p>
     </div>
     <div class="item-card">
       <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Minecraft_cover.png/120px-Minecraft_cover.png" alt="Minecraft">
-      <h3>Block World</h3>
-      <p>Creative sandbox.</p>
     </div>
     <div class="item-card">
       <img src="https://upload.wikimedia.org/wikipedia/en/7/73/Among_Us_cover_art.jpg" alt="Among Us">
-      <h3>Space Mystery</h3>
-      <p>Find the culprit!</p>
+    </div>
+    <div class="item-card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/09/Happy_Wheels_logo.png" alt="Happy Wheels">
     </div>
   </div>
 
@@ -115,8 +136,8 @@
       let input = document.getElementById('search').value.toLowerCase();
       let cards = document.getElementsByClassName('item-card');
       for (let card of cards) {
-        let title = card.getElementsByTagName('h3')[0].innerText.toLowerCase();
-        card.style.display = title.includes(input) ? '' : 'none';
+        let altText = card.querySelector("img").alt.toLowerCase();
+        card.style.display = altText.includes(input) ? '' : 'none';
       }
     }
   </script>
