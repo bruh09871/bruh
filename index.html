@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Library</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #161b22;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    /* Title + search */
+    .title {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 2rem;
+      color: #58a6ff;
+    }
+    .search-bar {
+      display: block;
+      margin: 0 auto 30px;
+      padding: 10px;
+      width: 50%;
+      border-radius: 10px;
+      border: none;
+      font-size: 1rem;
+      background-color: #161b22;
+      color: white;
+    }
+
+    /* Grid */
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 0 30px 50px;
+    }
+
+    .item-card {
+      background: linear-gradient(145deg, #1f2937, #0f172a);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .item-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+    }
+    .item-card h3 {
+      margin: 10px 0 5px;
+    }
+    .item-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo"><strong>Some Stuff</strong></div>
+    <div class="links">
+      <a href="#">Home</a>
+      <a href="#">Library</a>
+      <a href="#">Tools</a>
+    </div>
+  </nav>
+
+  <!-- Title + Search -->
+  <h1 class="title">Interactive Library</h1>
+  <input type="text" id="search" class="search-bar" placeholder="Search..." onkeyup="filterItems()">
+
+  <!-- Item Grid -->
+  <div class="item-grid" id="itemGrid">
+    <div class="item-card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/ADR_game_cover.jpg/120px-ADR_game_cover.jpg" alt="A Dark Room">
+      <h3>Adventure Room</h3>
+      <p>Text-based challenge.</p>
+    </div>
+    <div class="item-card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Minecraft_cover.png/120px-Minecraft_cover.png" alt="Minecraft">
+      <h3>Block World</h3>
+      <p>Creative sandbox.</p>
+    </div>
+    <div class="item-card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/7/73/Among_Us_cover_art.jpg" alt="Among Us">
+      <h3>Space Mystery</h3>
+      <p>Find the culprit!</p>
+    </div>
+  </div>
+
+  <script>
+    function filterItems() {
+      let input = document.getElementById('search').value.toLowerCase();
+      let cards = document.getElementsByClassName('item-card');
+      for (let card of cards) {
+        let title = card.getElementsByTagName('h3')[0].innerText.toLowerCase();
+        card.style.display = title.includes(input) ? '' : 'none';
+      }
+    }
+  </script>
+</body>
+</html>
