@@ -16,7 +16,6 @@
       align-items: center;
     }
 
-    /* Navbar */
     nav {
       display: flex;
       justify-content: center;
@@ -26,13 +25,13 @@
       width: 100%;
       box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
     }
+
     .logo {
       font-size: 1.3rem;
       font-weight: bold;
       color: #58a6ff;
     }
 
-    /* VM Buttons */
     .vm-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -55,7 +54,6 @@
       box-shadow: 0px 4px 12px rgba(0,0,0,0.5);
     }
 
-    /* Frame + Buttons */
     #vmFrameContainer {
       display: none;
       flex-direction: column;
@@ -92,20 +90,17 @@
   </style>
 </head>
 <body>
-  <!-- Navbar -->
   <nav>
     <div class="logo">VM Only</div>
   </nav>
 
-  <!-- VM Choices -->
   <div class="vm-grid" id="vmGrid">
     <div class="vm-card" onclick="launchVM('https://copy.sh/v86/')">v86 (Tiny VM)</div>
     <div class="vm-card" onclick="launchVM('https://bellard.org/jslinux/')">JSLinux</div>
     <div class="vm-card" onclick="launchVM('https://webvm.io/')">WebVM</div>
-    <div class="vm-card" onclick="launchVM('https://www.google.com/webhp?igu=1', true)">Google-Only Mode</div>
+    <div class="vm-card" onclick="startHyperbeam()">Google-Only (Cloud)</div>
   </div>
 
-  <!-- VM Frame -->
   <div id="vmFrameContainer">
     <div class="btn-row">
       <button onclick="goBack()">⬅ Back</button>
@@ -115,10 +110,32 @@
   </div>
 
   <script>
-    let googleOnly = false;
+    async function startHyperbeam() {
+      try {
+        // Make a new Hyperbeam room
+        let res = await fetch("https://api.hyperbeam.com/v0/vm", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer sk_test_5ECQZME56sa9OHlk4tGJQyFDrLfKObI-MaER414644w", // use test key
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            region: "auto"
+          })
+        });
 
-    function launchVM(url, isGoogle = false) {
-      googleOnly = isGoogle;
+        let data = await res.json();
+        if (data.stream_url) {
+          launchVM(data.stream_url);
+        } else {
+          alert("Error creating Hyperbeam session: " + JSON.stringify(data));
+        }
+      } catch (err) {
+        alert("Failed to start Hyperbeam: " + err);
+      }
+    }
+
+    function launchVM(url) {
       document.getElementById('vmGrid').style.display = 'none';
       document.getElementById('vmFrameContainer').style.display = 'flex';
       document.getElementById('vmFrame').src = url;
@@ -134,15 +151,14 @@
       let iframe = document.getElementById('vmFrame');
       if (iframe.requestFullscreen) {
         iframe.requestFullscreen();
-      } else if (iframe.mozRequestFullScreen) { /* Firefox */
+      } else if (iframe.mozRequestFullScreen) {
         iframe.mozRequestFullScreen();
-      } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+      } else if (iframe.webkitRequestFullscreen) {
         iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+      } else if (iframe.msRequestFullscreen) {
         iframe.msRequestFullscreen();
       }
     }
   </script>
 </body>
 </html>
-
