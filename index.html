@@ -19,7 +19,7 @@
     /* Navbar */
     nav {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       padding: 15px 30px;
       background-color: #161b22;
@@ -55,7 +55,7 @@
       box-shadow: 0px 4px 12px rgba(0,0,0,0.5);
     }
 
-    /* Frame */
+    /* Frame + Buttons */
     #vmFrameContainer {
       display: none;
       flex-direction: column;
@@ -69,9 +69,14 @@
       border: none;
       border-radius: 12px;
       box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+      background: white;
     }
-    #backBtn {
+    .btn-row {
+      display: flex;
+      gap: 10px;
       margin: 15px;
+    }
+    button {
       padding: 10px 20px;
       background: #58a6ff;
       color: black;
@@ -81,7 +86,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    #backBtn:hover {
+    button:hover {
       background: #79b8ff;
     }
   </style>
@@ -97,18 +102,23 @@
     <div class="vm-card" onclick="launchVM('https://copy.sh/v86/')">v86 (Tiny VM)</div>
     <div class="vm-card" onclick="launchVM('https://bellard.org/jslinux/')">JSLinux</div>
     <div class="vm-card" onclick="launchVM('https://webvm.io/')">WebVM</div>
-    <div class="vm-card" onclick="launchVM('https://www.onworks.net/')">OnWorks</div>
-    <div class="vm-card" onclick="launchVM('https://distrosea.com/')">DistroSea</div>
+    <div class="vm-card" onclick="launchVM('https://www.google.com/webhp?igu=1', true)">Google-Only Mode</div>
   </div>
 
   <!-- VM Frame -->
   <div id="vmFrameContainer">
-    <button id="backBtn" onclick="goBack()">⬅ Back</button>
+    <div class="btn-row">
+      <button onclick="goBack()">⬅ Back</button>
+      <button onclick="goFullscreen()">⛶ Fullscreen</button>
+    </div>
     <iframe id="vmFrame"></iframe>
   </div>
 
   <script>
-    function launchVM(url) {
+    let googleOnly = false;
+
+    function launchVM(url, isGoogle = false) {
+      googleOnly = isGoogle;
       document.getElementById('vmGrid').style.display = 'none';
       document.getElementById('vmFrameContainer').style.display = 'flex';
       document.getElementById('vmFrame').src = url;
@@ -119,6 +129,20 @@
       document.getElementById('vmFrameContainer').style.display = 'none';
       document.getElementById('vmFrame').src = "";
     }
+
+    function goFullscreen() {
+      let iframe = document.getElementById('vmFrame');
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.mozRequestFullScreen) { /* Firefox */
+        iframe.mozRequestFullScreen();
+      } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+        iframe.msRequestFullscreen();
+      }
+    }
   </script>
 </body>
 </html>
+
