@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VM Only - Bruh's Activitys</title>
+  <title>Bruh's VMs</title>
   <style>
     body {
       background-color: #0d1117;
@@ -27,7 +27,7 @@
     }
 
     .logo {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: bold;
       color: #58a6ff;
     }
@@ -91,14 +91,14 @@
 </head>
 <body>
   <nav>
-    <div class="logo">VM Only</div>
+    <div class="logo">Bruh's VMs</div>
   </nav>
 
   <div class="vm-grid" id="vmGrid">
+    <div class="vm-card" onclick="startHyperbeam()">Main VM</div>
     <div class="vm-card" onclick="launchVM('https://copy.sh/v86/')">v86 (Tiny VM)</div>
     <div class="vm-card" onclick="launchVM('https://bellard.org/jslinux/')">JSLinux</div>
     <div class="vm-card" onclick="launchVM('https://webvm.io/')">WebVM</div>
-    <div class="vm-card" onclick="startHyperbeam()">Google-Only (Cloud)</div>
   </div>
 
   <div id="vmFrameContainer">
@@ -112,16 +112,13 @@
   <script>
     async function startHyperbeam() {
       try {
-        // Make a new Hyperbeam room
         let res = await fetch("https://api.hyperbeam.com/v0/vm", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer sk_test_5ECQZME56sa9OHlk4tGJQyFDrLfKObI-MaER414644w", // use test key
+            "Authorization": "Bearer sk_test_5ECQZME56sa9OHlk4tGJQyFDrLfKObI-MaER414644w",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            region: "auto"
-          })
+          body: JSON.stringify({ region: "auto" })
         });
 
         let data = await res.json();
@@ -131,7 +128,7 @@
           alert("Error creating Hyperbeam session: " + JSON.stringify(data));
         }
       } catch (err) {
-        alert("Failed to start Hyperbeam: " + err);
+        alert("Failed to start Hyperbeam. If you opened this file directly, run it on localhost or host it online.");
       }
     }
 
@@ -162,3 +159,4 @@
   </script>
 </body>
 </html>
+
